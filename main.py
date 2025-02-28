@@ -90,28 +90,28 @@ def selection():
                     dpg.add_button(label=item["name"],width=500,callback=open_table,user_data=i)
                     dpg.add_button(label="delete",callback=delete_table,user_data=i)
         else:
-            dpg.add_text("nessuno schema presente!")     
+            dpg.add_text("no chart available")     
 
 def main():
-    global current_table,data,group_list
+    global current_table, data, group_list
     dpg.delete_item("main")
     with dpg.window(tag="main"):
         with dpg.menu_bar():
-            dpg.add_button(label="open chart",callback=selection)
-            dpg.add_button(label="new chart",callback=new_table)
+            dpg.add_button(label="open chart", callback=selection)
+            dpg.add_button(label="new chart", callback=new_table)
 
-        dpg.add_text("\nchart: "+current_table["name"])
-        dpg.add_button(label="generate a random seat chart",callback=refresh)
-        with dpg.table(header_row=False, resizable=True, policy=dpg.mvTable_SizingStretchProp,borders_outerH=True, borders_innerV=True, borders_outerV=True):
-            iter=0
+        dpg.add_text("\nchart: " + current_table["name"])
+        dpg.add_button(label="generate a random seat chart", callback=refresh)
+        with dpg.table(header_row=False, resizable=True, policy=dpg.mvTable_SizingStretchProp, borders_outerH=True, borders_innerV=True, borders_outerV=True):
+            iter = 0
             for i in range(current_table["size"][0]):
                 dpg.add_table_column()
             for i in range(current_table["size"][1]):
                 with dpg.table_row():
                     for j in range(current_table["size"][0]):
-                        if current_table["table"][current_table["size"][0]*i+j]:
-                            dpg.add_text(group_list[iter])
-                            iter+=1
+                        if current_table["table"][current_table["size"][0] * i + j]:
+                            dpg.add_input_text(default_value=group_list[iter], tag=f"input_{i}_{j}")
+                            iter += 1
                         else:
                             dpg.add_checkbox()
     dpg.set_primary_window("main", True)
